@@ -1,0 +1,3 @@
+﻿English,German
+Hello,=gTranslate(R1C1, "en", "de")
+Water,=gTranslate(R2C1, "en", "de")
