@@ -16,7 +16,7 @@ namespace TTLib
         {
         }
 
-        public VocabList Translate(string title, string text)
+        public VocabList Translate(string text)
         {
             List<string> words = SplitUnique(text);
             return YandexTranslate(words);
@@ -76,7 +76,7 @@ namespace TTLib
 
                 WebClient webClient = new WebClient();
                 webClient.QueryString.Add("key", "trnsl.1.1.20140114T110901Z.06c89613f8b9bdf9.ec1414fa46f30fe0bcdaa6985c3e7b2660ffd9e7");
-                webClient.QueryString.Add("lang", "en-de");
+                webClient.QueryString.Add("lang", "de-en");
                 webClient.QueryString.Add("text", allText);
                 webClient.Encoding = Encoding.UTF8;
                 string result = webClient.DownloadString("https://translate.yandex.net/api/v1.5/tr/translate");

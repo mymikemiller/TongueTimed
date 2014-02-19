@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace GIRLib
 {
-    class Driver<T>
+    class Driver
     {
-        RecallableBag<T> mBag;
+        RecallableBag mBag;
 
         public static int NumberAllowedInUse { get { return 1; } }
         public static int MinimumAppearances { get { return 10; } } // The minimum number of appearances each Recallable must make
 
-        public Driver(List<T> objects)
+        public Driver(int numIndices)
         {
-            mBag = new RecallableBag<T>(objects);
+            mBag = new RecallableBag(numIndices);
         }
 
         // Returns recallables not InUse in the order they can be used if extra recallables are needed.
-        public List<Recallable<T>> GetAdditionalUsableLetters(bool includeVowels)
+        public List<Recallable> GetAdditionalUsableLetters(bool includeVowels)
         {
-            List<Recallable<T>> recallables = new List<Recallable<T>>();
+            List<Recallable> recallables = new List<Recallable>();
 
-            foreach (Recallable<T> recallable in mBag.Recallables)
+            foreach (Recallable recallable in mBag.Recallables)
             {
-                if (recallable.State == Recallable<T>.States.Off && recallable.AppearanceCount > 0)
+                if (recallable.State == Recallable.States.Off && recallable.AppearanceCount > 0)
                 {
                     recallables.Add(recallable);
                 }
@@ -34,22 +34,22 @@ namespace GIRLib
             return recallables.OrderBy(l => l.TicksInCurrentState).ToList();
         }
 
-        public T GetNextRequiredObject()
+        public int GetNextRequiredIndex()
         {
-            List<Recallable<T>> recallables = GetNext();
+            List<Recallable> recallables = GetNext();
             if (recallables.Count == 0)
-                return default(T);
+                return -1;
 
-            return recallables.First(o => o.State == Recallable<T>.States.Require).Object;
+            return recallables.First(o => o.State == Recallable.States.Require).Index;
         }
         
 
-        public List<Recallable<T>> GetNext()
+        public List<Recallable> GetNext()
         {
             bool done = true;
 
             // We're done (return an empty list) when there are no letters that haven't been used
-            foreach (Recallable<T> recallable in mBag.Recallables)
+            foreach (Recallable recallable in mBag.Recallables)
             {
                 if (recallable.AppearanceCount < MinimumAppearances)
                 {
@@ -59,7 +59,7 @@ namespace GIRLib
 
             if (done)
             {
-                return new List<Recallable<T>>();
+                return new List<Recallable>();
             }
 
             mBag.Tick(NumberAllowedInUse, MinimumAppearances);

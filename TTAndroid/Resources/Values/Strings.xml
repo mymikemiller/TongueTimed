@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="ApplicationName">TongueTimed</string>
+  <string name="DefaultText">Hello</string>
+  <string name="Speak">Speak</string>
+  <string name="English">English</string>
+  <string name="German">German</string>
+  <string name="EnglishText">This is an english sentence</string>
+  <string name="GermanText">Dies ist ein Satz Deutsch</string>
+  <string name="StartLesson">Start Lesson!</string>
+</resources>

@@ -6,27 +6,24 @@ using System.Threading.Tasks;
 
 namespace GIRLib
 {
-    public class GIR<T>
+    public class GIR
     {
 
-        public static List<T> GetGIR(List<T> objectsToGIR)
+        public static List<int> GetGIR(int numIndices)
         {
-            
-
-            Driver<T> driver = new Driver<T>(objectsToGIR);
+            Driver driver = new Driver(numIndices);
 
             int tick = 0;
-            List<T> objects = new List<T>();
-            T obj = default(T);
-            while ((obj = driver.GetNextRequiredObject()) != null)
+            List<int> ints = new List<int>();
+            int obj = 0;
+            while ((obj = driver.GetNextRequiredIndex()) != -1)
             {
-                objects.Add(obj);
-                //Console.WriteLine("Recallable: " + obj);
+                ints.Add(obj);
 
                 tick++;
             }
 
-            return objects;
+            return ints;
         }
     }
 }

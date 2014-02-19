@@ -22,7 +22,20 @@ namespace TTWindows
         private async void btnTranslate_Click(object sender, EventArgs e)
         {
             Translator translator = new Translator();
-            translator.Translate("Word Families", txtInput.Text);
+            //VocabList vocabList = translator.Translate(txtInput.Text);
+            //vocabList.WriteToFile("Achtung.txt");
+            VocabList vocabList = new VocabList("Achtung.txt");
+
+
+            //VocabList vocabList = new VocabList("Top2000ToGerman.txt", 0, 10);
+
+            Console.WriteLine("Starting GIR");
+
+            DateTime start = DateTime.Now;
+            List<int> girIndeces = GIR.GetGIR(vocabList.GetVocabList().Count);//vocabList.GetVocabList());
+            DateTime end = DateTime.Now;
+
+            Console.WriteLine("Finished GIR in " + (end - start).ToString());
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -30,15 +43,23 @@ namespace TTWindows
             Translator translator = new Translator();
             //VocabList vocabList = translator.Translate("Word Families", txtInput.Text);
             //vocabList.WriteToFile("Top2000ToGerman.txt");
+            /*
+            VocabList vocabList = new VocabList("Top2000ToGerman.txt", 0, 10);
 
-            VocabList vocabList = new VocabList("Top2000ToGerman.txt");
+            Console.WriteLine("Starting GIR");
 
-            List<Vocab> girObjects = GIR<Vocab>.GetGIR(vocabList.GetVocabList());
+            DateTime start = DateTime.Now;
+            List<int> girIndeces = GIR.GetGIR(vocabList.GetVocabList().Count);//vocabList.GetVocabList());
+            DateTime end = DateTime.Now;
 
+            Console.WriteLine("Finished GIR in " + (end - start).ToString());
+            */
+            /*
             foreach(Vocab vocab in girObjects)
             {
                 Console.WriteLine(vocab.ToString());
             }
+             * */
             
         }
     }

@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTWindows", "TTWindows\TTWi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GIRLib", "GIRLib\GIRLib.csproj", "{10FD67EA-B493-4B8B-95D0-79B3F49DA4DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTAndroid", "TTAndroid\TTAndroid.csproj", "{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,12 @@ Global
 		{10FD67EA-B493-4B8B-95D0-79B3F49DA4DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10FD67EA-B493-4B8B-95D0-79B3F49DA4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10FD67EA-B493-4B8B-95D0-79B3F49DA4DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CFF0DDC-970E-4FA6-BB59-2D0055B2E6B0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GIRLib
 {
-    class Recallable<T>
+    class Recallable
     {
         // Off = Not to be recalled
         // On = Can be recalled
@@ -29,19 +29,19 @@ namespace GIRLib
             }
         }
 
-        public T Object { get; private set; }
+        public int Index { get; private set; }
         public int AppearanceCount { get; set; }
 
         // For this purpose, On and Required are considered one state
         public int TicksInCurrentState { get; set; }
         public States State { get; set; }
 
-        // The order the objects should be recalled, lowest first
+        // The order the indices should be recalled, lowest first
         public int Order { get; private set; }
 
-        public Recallable(T obj, int order)
+        public Recallable(int index, int order)
         {
-            Object = obj;
+            Index = index;
             Order = order;
             AppearanceCount = 0;
             State = States.Off;
@@ -49,7 +49,7 @@ namespace GIRLib
 
         public override string ToString()
         {
-            return Object.ToString();
+            return Index.ToString();
         }
     }
 }
