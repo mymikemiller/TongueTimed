@@ -9,25 +9,15 @@
         android:layout_height="wrap_content"
         android:text="@string/DefaultText" />
     <Button
-        android:id="@+id/btnSpeak"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Speak" />
-    <Button
-        android:id="@+id/btnEnglish"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/English" />
-    <Button
-        android:id="@+id/btnGerman"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/German" />
-    <Button
-        android:id="@+id/btnStartLesson"
+        android:id="@+id/btnPlay"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/StartLesson" />
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Reset" />
     <Button
         android:text="Choose Words"
         android:layout_width="match_parent"

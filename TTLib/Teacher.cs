@@ -65,6 +65,11 @@ namespace TTLib
             PerformGIR();
         }
 
+        public void Reset()
+        {
+            mCurrentGirIndicesIndex = 0;
+        }
+
         private void PerformGIR()
         {
             Console.WriteLine("Starting GIR");

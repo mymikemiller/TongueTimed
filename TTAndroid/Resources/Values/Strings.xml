@@ -8,4 +8,5 @@
   <string name="EnglishText">This is an english sentence</string>
   <string name="GermanText">Dies ist ein Satz Deutsch</string>
   <string name="StartLesson">Start Lesson!</string>
+  <string name="Reset">Reset</string>
 </resources>

@@ -24,10 +24,8 @@ namespace TTAndroid
     {
 
         private TextToSpeech tts;
-        private Button btnSpeak;
-        private Button btnEnglish;
-        private Button btnGerman;
-        private Button btnStartLesson;
+        private Button btnPlay;
+        private Button btnReset;
         private EditText txtText;
         private Button btnChooseWords;
 
@@ -36,6 +34,8 @@ namespace TTAndroid
             { "en", Locale.Us},
             { "de", Locale.German}
         };
+
+        private bool mPlaying = false;
 
         private Teacher mTeacher;
         private SayablePair mCurrentSayablePair;
@@ -54,11 +54,9 @@ namespace TTAndroid
                 mTeacher = new Teacher(sr);
             }
 
-            btnSpeak = (Button)FindViewById(Resource.Id.btnSpeak);
-            btnEnglish = (Button)FindViewById(Resource.Id.btnEnglish);
-            btnGerman = (Button)FindViewById(Resource.Id.btnGerman);
-            btnStartLesson = (Button)FindViewById(Resource.Id.btnStartLesson);
             txtText = (EditText)FindViewById(Resource.Id.txtText);
+            btnPlay = (Button)FindViewById(Resource.Id.btnPlay);
+            btnReset = (Button)FindViewById(Resource.Id.btnReset);
             btnChooseWords = FindViewById<Button>(Resource.Id.chooseWords);
 
             btnChooseWords.Click += delegate {
@@ -67,26 +65,35 @@ namespace TTAndroid
                 myIntent.PutExtra("initialVocab", initialVocab);
                 StartActivityForResult(myIntent, 0);
             };
-            /*
-            btnSpeak.Click += delegate
+            
+            btnReset.Click += delegate
             {
-                say();
+                mTeacher.Reset();
+                if (mPlaying)
+                {
+                    TogglePlay();
+                }
+                
             };
-            btnEnglish.Click += delegate
+            btnPlay.Click += delegate
             {
-                SetLanguage(Locale.Us);
-                txtText.Text = GetString(Resource.String.EnglishText);
-            };
-            btnGerman.Click += delegate
-            {
-                SetLanguage(Locale.German);
-                txtText.Text = GetString(Resource.String.GermanText);
-            };*/
-            btnStartLesson.Click += delegate
-            {
-                sayNext();
+                TogglePlay();
             };
 
+        }
+
+        private void TogglePlay()
+        {
+            mPlaying = !mPlaying;
+            if (mPlaying)
+            {
+                btnPlay.Text = "Pause";
+                sayNext();
+            }
+            else
+            {
+                btnPlay.Text = "Play";
+            }
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -126,11 +133,11 @@ namespace TTAndroid
                     || result == LanguageAvailableResult.NotSupported)
             {
                 Console.WriteLine("TTS: This Language is not supported");
-                btnSpeak.Enabled = false;
+                btnPlay.Enabled = false;
             }
             else
             {
-                btnSpeak.Enabled = true;
+                btnPlay.Enabled = true;
                 //speakOut();
             }
         }
@@ -181,6 +188,9 @@ namespace TTAndroid
 
         public void OnUtteranceCompleted(string utteranceId)
         {
+            if (!mPlaying)
+                return;
+
             System.Timers.Timer t = new System.Timers.Timer();
             t.Interval = 1000;
             t.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed);
