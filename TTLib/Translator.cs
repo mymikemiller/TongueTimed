@@ -85,7 +85,7 @@ namespace TTLib
                 for (int i = 0; i < translatedList.Count; i++)
                 {
                     int wordIndex = i + (wordsAllowed * pass);
-                    vocabList.Add(new Word(words[wordIndex], translatedList[i]));
+                    vocabList.Add(new Word(translatedList[i], words[wordIndex]));
                 }
 
             }

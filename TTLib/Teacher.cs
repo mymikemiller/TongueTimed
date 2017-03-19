@@ -13,16 +13,34 @@ namespace TTLib
         List<int> mGirIndices;
         private VocabList mVocabList;
 
-        public Teacher(string fileName, int startIndex = 0, int count = -1)
+        public Teacher(string vocab)
         {
-            using (StreamReader file = new StreamReader(fileName)) {
-                Init(file, startIndex, count);
-            }
+            String[] vocabArray = vocab.Split('\n');
+            Init(vocabArray);
+            
         }
 
         public Teacher(StreamReader file)
         {
             Init(file);
+        }
+
+        public void Init(String[] vocabArray)
+        {
+            mVocabList = new VocabList();
+
+            foreach(String line in vocabArray)
+            {
+                string[] parts = line.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 2)
+                {
+                    String source = parts[0].Trim();
+                    String target = parts[1].Trim();
+                    mVocabList.Add(new Word(source, target));
+                }
+            }
+
+            PerformGIR();
         }
 
         public void Init(StreamReader file, int startIndex = 0, int count = -1)
@@ -44,6 +62,11 @@ namespace TTLib
                 lineNum++;
             }
 
+            PerformGIR();
+        }
+
+        private void PerformGIR()
+        {
             Console.WriteLine("Starting GIR");
 
             DateTime start = DateTime.Now;
@@ -51,6 +74,16 @@ namespace TTLib
             DateTime end = DateTime.Now;
 
             Console.WriteLine("Finished GIR in " + (end - start).ToString());
+        }
+
+        public String GetVocab()
+        {
+            String allVocab = "";
+            foreach(Vocab vocab in mVocabList)
+            {
+                allVocab += vocab.Source + " = " + vocab.Target + "\n";
+            }
+            return allVocab;
         }
 
         public SayablePair GetNextSayablePair()

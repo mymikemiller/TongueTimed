@@ -17,7 +17,7 @@ using TTLib;
 using GIRLib;
 using System.IO;
 
-namespace TongueTimed
+namespace TTAndroid
 {
     [Activity(Label = "TongueTimed", MainLauncher = true, Icon = "@drawable/icon")]
     public class TongueTimed : Activity, TextToSpeech.IOnInitListener, TextToSpeech.IOnUtteranceCompletedListener
@@ -29,6 +29,7 @@ namespace TongueTimed
         private Button btnGerman;
         private Button btnStartLesson;
         private EditText txtText;
+        private Button btnChooseWords;
 
         private Dictionary<string, Locale> mSupportedLocales = new Dictionary<string, Locale>()
         {
@@ -48,16 +49,24 @@ namespace TongueTimed
 
             tts = new TextToSpeech(this, this);
 
-            using (StreamReader sr = new StreamReader(Assets.Open("Achtung.txt")))
+            using (StreamReader sr = new StreamReader(Assets.Open("BasicGermanPhrases.txt")))
             {
                 mTeacher = new Teacher(sr);
-            }            
+            }
 
             btnSpeak = (Button)FindViewById(Resource.Id.btnSpeak);
             btnEnglish = (Button)FindViewById(Resource.Id.btnEnglish);
             btnGerman = (Button)FindViewById(Resource.Id.btnGerman);
             btnStartLesson = (Button)FindViewById(Resource.Id.btnStartLesson);
             txtText = (EditText)FindViewById(Resource.Id.txtText);
+            btnChooseWords = FindViewById<Button>(Resource.Id.chooseWords);
+
+            btnChooseWords.Click += delegate {
+                var myIntent = new Intent(this, typeof(TTAndroid.ChooseWordsActivity));
+                String initialVocab = mTeacher.GetVocab();
+                myIntent.PutExtra("initialVocab", initialVocab);
+                StartActivityForResult(myIntent, 0);
+            };
             /*
             btnSpeak.Click += delegate
             {
@@ -78,6 +87,16 @@ namespace TongueTimed
                 sayNext();
             };
 
+        }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            if (resultCode == Result.Ok)
+            {
+                String vocab = data.GetStringExtra("vocab");
+                mTeacher = new Teacher(vocab);
+            }
         }
 
         private void sayNext()

@@ -51,8 +51,13 @@ namespace TTLib
 
                 if (lineNum >= startIndex)
                 {
-                    string[] parts = line.Split(new string[] { " = " }, StringSplitOptions.RemoveEmptyEntries);
-                    mVocabList.Add(new Word(parts[1], parts[0]));
+                    string[] parts = line.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (parts.Length == 2)
+                    {
+                        String source = parts[0].Trim();
+                        String target = parts[1].Trim();
+                        mVocabList.Add(new Word(source, target));
+                    }
                 }
 
                 lineNum++;
