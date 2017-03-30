@@ -29,6 +29,9 @@ namespace TTAndroid
         private EditText txtText;
         private Button btnChooseWords;
 
+        const String TEACHER_CURRENT_INDEX = "TEACHER_CURRENT_INDEX";
+        const String PLAYING = "PLAYING";
+
         private Dictionary<string, Locale> mSupportedLocales = new Dictionary<string, Locale>()
         {
             { "en", Locale.Us},
@@ -53,11 +56,17 @@ namespace TTAndroid
             {
                 mTeacher = new Teacher(sr);
             }
-
+            
             txtText = (EditText)FindViewById(Resource.Id.txtText);
             btnPlay = (Button)FindViewById(Resource.Id.btnPlay);
             btnReset = (Button)FindViewById(Resource.Id.btnReset);
             btnChooseWords = FindViewById<Button>(Resource.Id.chooseWords);
+
+            if (bundle != null)
+            {
+                mTeacher.CurrentGirIndicesIndex = bundle.GetInt(TEACHER_CURRENT_INDEX, 0);
+                SetPlaying(bundle.GetBoolean(PLAYING, false));
+            }
 
             btnChooseWords.Click += delegate {
                 var myIntent = new Intent(this, typeof(TTAndroid.ChooseWordsActivity));
@@ -69,31 +78,41 @@ namespace TTAndroid
             btnReset.Click += delegate
             {
                 mTeacher.Reset();
-                if (mPlaying)
-                {
-                    TogglePlay();
-                }
-                
+                SetPlaying(false);
             };
             btnPlay.Click += delegate
             {
                 TogglePlay();
             };
-
         }
 
-        private void TogglePlay()
+        protected override void OnSaveInstanceState(Bundle outState)
         {
-            mPlaying = !mPlaying;
+            outState.PutInt(TEACHER_CURRENT_INDEX, mTeacher.CurrentGirIndicesIndex);
+            outState.PutBoolean(PLAYING, mPlaying);
+        }
+
+        private void SetPlaying(Boolean playing)
+        {
+            Boolean previousPlaying = mPlaying;
+            mPlaying = playing;
             if (mPlaying)
             {
                 btnPlay.Text = "Pause";
-                sayNext();
+                if (!previousPlaying)
+                {
+                    ScheduleSay(1000);
+                }
             }
             else
             {
                 btnPlay.Text = "Play";
             }
+        }
+
+        private void TogglePlay()
+        {
+            SetPlaying(!mPlaying);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -185,16 +204,20 @@ namespace TTAndroid
 
             tts.Speak(text, QueueMode.Flush, parameters);
         }
+        private void ScheduleSay(int milliseconds)
+        {
+            System.Timers.Timer t = new System.Timers.Timer();
+            t.Interval = milliseconds;
+            t.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed);
+            t.Start();
+        }
 
         public void OnUtteranceCompleted(string utteranceId)
         {
             if (!mPlaying)
                 return;
 
-            System.Timers.Timer t = new System.Timers.Timer();
-            t.Interval = 1000;
-            t.Elapsed += new System.Timers.ElapsedEventHandler(t_Elapsed);
-            t.Start();
+            ScheduleSay(1000);
         }
         protected void t_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {

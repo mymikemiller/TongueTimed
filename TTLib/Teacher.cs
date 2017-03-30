@@ -9,7 +9,7 @@ namespace TTLib
 {
     public class Teacher
     {
-        private int mCurrentGirIndicesIndex = 0;
+        public int CurrentGirIndicesIndex { get; set; }
         List<int> mGirIndices;
         private VocabList mVocabList;
 
@@ -17,12 +17,13 @@ namespace TTLib
         {
             String[] vocabArray = vocab.Split('\n');
             Init(vocabArray);
-            
+            CurrentGirIndicesIndex = 0;
         }
 
         public Teacher(StreamReader file)
         {
             Init(file);
+            CurrentGirIndicesIndex = 0;
         }
 
         public void Init(String[] vocabArray)
@@ -67,7 +68,7 @@ namespace TTLib
 
         public void Reset()
         {
-            mCurrentGirIndicesIndex = 0;
+            CurrentGirIndicesIndex = 0;
         }
 
         private void PerformGIR()
@@ -93,9 +94,9 @@ namespace TTLib
 
         public SayablePair GetNextSayablePair()
         {
-            if (mCurrentGirIndicesIndex >= mGirIndices.Count) return null;
+            if (CurrentGirIndicesIndex >= mGirIndices.Count) return null;
 
-            int index = mGirIndices[mCurrentGirIndicesIndex];
+            int index = mGirIndices[CurrentGirIndicesIndex];
 
             if (index >= mVocabList.GetVocabList().Count) return null;
 
@@ -106,7 +107,7 @@ namespace TTLib
 
             SayablePair sayablePair = new SayablePair(sourceSayable, targetSayable);
 
-            mCurrentGirIndicesIndex++;
+            CurrentGirIndicesIndex++;
             return sayablePair;
         }
 

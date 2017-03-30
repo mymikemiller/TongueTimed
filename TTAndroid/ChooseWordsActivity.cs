@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace TTAndroid
 {
-    [Activity(Label = "ChooseWordsActivity")]
+    [Activity(Label = "Specify Vocab")]
     public class ChooseWordsActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
